@@ -38,6 +38,42 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Basketball Team": {
+        "description": "Competitive basketball training and games",
+        "schedule": "Mondays and Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 15,
+        "participants": ["marcus@mergington.edu"]
+    },
+    "Tennis Club": {
+        "description": "Tennis skills development and tournaments",
+        "schedule": "Wednesdays and Saturdays, 3:00 PM - 4:30 PM",
+        "max_participants": 10,
+        "participants": ["alex@mergington.edu", "jordan@mergington.edu"]
+    },
+    "Art Studio": {
+        "description": "Painting, drawing, and mixed media techniques",
+        "schedule": "Tuesdays and Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 18,
+        "participants": ["isabella@mergington.edu"]
+    },
+    "Music Band": {
+        "description": "Learn instruments and perform in concerts",
+        "schedule": "Mondays and Wednesdays, 4:00 PM - 5:00 PM",
+        "max_participants": 25,
+        "participants": ["noah@mergington.edu", "ava@mergington.edu"]
+    },
+    "Debate Club": {
+        "description": "Develop public speaking and critical thinking skills",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 16,
+        "participants": ["lucas@mergington.edu"]
+    },
+    "Science Club": {
+        "description": "Explore experiments and scientific discovery",
+        "schedule": "Wednesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 22,
+        "participants": ["grace@mergington.edu", "ethan@mergington.edu"]
     }
 }
 
@@ -61,6 +97,14 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up for the activity
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up for this activity")
+
+    # Validate activity is not full
+    if len(activity["participants"]) >= activity["max_participants"]:
+        raise HTTPException(status_code=400, detail="Activity is full")
 
     # Add student
     activity["participants"].append(email)
